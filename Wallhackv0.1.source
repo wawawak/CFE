@@ -1,0 +1,21 @@
+void DrawPlayerESP( UCanvas* pCanvas )
+{
+    if (pPC == NULL || pPC->Pawn == NULL || pPC->WorldInfo == NULL )
+    return;
+
+    FBoxSphereBounds PlayerBounds;
+    APawn* Target = pPC->Pawn->WorldInfo->PawnList;
+    while ( Target != NULL )
+    {
+
+        FBoxSphereBounds PlayerBounds = Target->Mesh->Bounds;
+        if ( Target != NULL && !Target->bDeleteMe && Target->Health >0 && Target != pPC->Pawn && !Target->IsA(AVehicle::StaticClass())) 
+        {
+            Target->Mesh->SetDepthPriorityGroup(2);
+            pPC->DrawDebugBox(Target->Location, PlayerBounds.BoxExtent, 0, 255,0,false);
+
+        }
+    
+        Target = Target->NextPawn;
+    }
+}
